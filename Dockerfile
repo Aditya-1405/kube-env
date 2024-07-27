@@ -1,19 +1,22 @@
-FROM ubuntu/apache2:latest
+FROM ubuntu:latest
 
 # Update and install required packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y wget unzip && \
+    apt-get install -y apache2 wget unzip && \
     rm -rf /var/lib/apt/lists/*
 
 # Download, unzip the template, and move files to the appropriate directory
 RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
     unzip 2137_barista_cafe.zip && \
     mv 2137_barista_cafe/* /var/www/html/ && \
-    rm -rf 2135_mini_finance 2137_barista_cafe.zip
+    rm -rf 2137_barista_cafe.zip 2137_barista_cafe
 
-# Expose port 80
-EXPOSE 8080
+# Set appropriate permissions for Apache
+RUN chown -R www-data:www-data /var/www/html /var/run/apache2
+
+# Expose port 80 (default for Apache)
+EXPOSE 80
 
 # Start the Apache server
 CMD ["apache2ctl", "-D", "FOREGROUND"]
