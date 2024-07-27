@@ -1,4 +1,4 @@
-FROM ubuntu/apache:latest
+FROM ubuntu/apache2:latest
 
 # Update and install required packages
 RUN apt-get update && \
