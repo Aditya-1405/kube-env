@@ -12,8 +12,9 @@ RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
     mv 2137_barista_cafe/* /var/www/html/ && \
     rm -rf 2137_barista_cafe.zip 2137_barista_cafe
 
-# Set appropriate permissions for Apache
-RUN chown -R www-data:www-data /var/www/html /var/run/apache2
+# Create necessary directories and set permissions
+RUN mkdir -p /var/run/apache2 && \
+    chown -R www-data:www-data /var/www/html /var/run/apache2
 
 # Expose port 80 (default for Apache)
 EXPOSE 80
