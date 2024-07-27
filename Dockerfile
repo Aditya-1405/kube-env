@@ -1,5 +1,5 @@
 FROM ubuntu/apache2:latest
-
+USER root
 # Update and install required packages
 RUN apt-get update && \
     apt-get upgrade -y && \
