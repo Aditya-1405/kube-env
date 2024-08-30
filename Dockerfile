@@ -2,9 +2,9 @@ FROM nginx:latest
 
 WORKDIR /tmp/cafe
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y unzip wget
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y unzip wget
 
 RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
     unzip 2137_barista_cafe.zip && \
