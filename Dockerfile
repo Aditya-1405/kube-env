@@ -1,4 +1,3 @@
-# Use the official Apache image from Ubuntu
 FROM ubuntu/apache2:latest
 
 # Update and install required packages
@@ -14,8 +13,8 @@ RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
 
 # Ensure the Apache run directory is writable by the container's user
 RUN mkdir -p /var/run/apache2 && \
-    chown -R www-data:www-data /var/www/html && \
-    chown -R www-data:www-data /var/run/apache2
+    chmod -R 755 /var/run/apache2 && \
+    chown -R www-data:www-data /var/run/apache2 /var/www/html
 
 # Expose port 80 (default for Apache)
 EXPOSE 80
