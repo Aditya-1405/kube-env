@@ -3,7 +3,7 @@ FROM ubuntu/apache2:latest
 # Update and install required packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y apache2 wget unzip && \
+    apt-get install -y wget unzip 
 
 # Download, unzip the template, and move files to the appropriate directory
 RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
