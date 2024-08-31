@@ -1,27 +1,18 @@
-# Stage 1: Use a more feature-rich base image to build the content
-FROM debian:bullseye-slim AS build
+# Use a Debian-based HTTPD image as the base
+FROM debian:latest
 
-WORKDIR /tmp/cafe
+# Install HTTPD, wget, and unzip
+RUN apt-get update && \
+    apt-get install -y apache2 wget unzip
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y unzip wget
-
+# Download and unzip the file
+WORKDIR /tmp
 RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
-    unzip 2137_barista_cafe.zip && \
-    mv 2137_barista_cafe/* /tmp/cafe
+    unzip 2137_barista_cafe.zip -d /var/www/html && \
+    rm 2137_barista_cafe.zip
 
-# Stage 2: Use the Nginx image for serving content
-FROM nginx:latest
-
-# Copy content from the build stage
-COPY --from=build /tmp/cafe /usr/share/nginx/html/
-
-# Expose port 80 (default for Nginx)
+# Expose port 80
 EXPOSE 80
 
-# Set a non-root user to run the container
-USER nginx
-
-# Nginx is already set up to run in the foreground by default
-CMD ["nginx", "-g", "daemon off;"]
+# Start HTTPD
+CMD ["apachectl", "-D", "FOREGROUND"]
