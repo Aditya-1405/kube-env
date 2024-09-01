@@ -1,22 +1,17 @@
-# Use a Debian-based HTTPD image as the base
-FROM debian:latest
+FROM alpine:latest
 
-# Install Apache2, wget, and unzip
-RUN apt-get update && \
-    apt-get install -y apache2 wget unzip
+USER root
 
-# Create necessary directories and set permissions
-RUN mkdir -p /var/run/apache2 && \
-    chown www-data:www-data /var/run/apache2
+RUN apk update && \
+    apk add nginx && \
+    chown -R nginx:www-data /var/lib/nginx
 
-# Download and unzip the file
-WORKDIR /tmp
-RUN wget https://www.tooplate.com/zip-templates/2137_barista_cafe.zip && \
-    unzip 2137_barista_cafe.zip -d /var/www/html && \
-    rm 2137_barista_cafe.zip
+WORKDIR /etc/nginx
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/index.html /var/lib/nginx/html/index.html
+COPY docker/50x.html /var/lib/nginx/html/50x.html
 
-# Expose port 80
-EXPOSE 80
+RUN chmod -R 755 /var/lib/nginx
 
-# Start Apache in the foreground
-CMD ["apachectl", "-D", "FOREGROUND"]
+EXPOSE 8080
+CMD ["/usr/sbin/nginx"]
