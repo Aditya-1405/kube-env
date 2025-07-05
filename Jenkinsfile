@@ -27,7 +27,7 @@ pipeline {
     stage('Deploy on EC2') {
       steps {
         echo 'Deploying on EC2'
-        sshagent(['ubuntu']) {  // Replace 'ubuntu' with your actual SSH key credentials ID
+        sshagent(['ec2-ssh']) {  // Replace 'ubuntu' with your actual SSH key credentials ID
           sh '''
             ssh -o StrictHostKeyChecking=no ec2-user@13.127.108.196 '
               sudo systemctl start docker || sudo service docker start || true &&
