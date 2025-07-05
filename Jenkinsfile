@@ -31,7 +31,7 @@ pipeline {
         // This ID must match your SSH Username + Private Key credential in Jenkins
         sshagent(['ec2-ssh']) {
           sh '''
-            ssh -o StrictHostKeyChecking=no ubuntu@13.127.108.196 '
+            ssh -o StrictHostKeyChecking=no ubuntu@3.110.188.114 '
               sudo systemctl start docker || sudo service docker start || true &&
               docker pull devad14/test-image-aditya:latest &&
               docker stop test-container || true &&
