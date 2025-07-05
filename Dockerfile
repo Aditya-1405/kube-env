@@ -12,5 +12,5 @@ COPY docker/ /var/lib/nginx/html/
 
 RUN chmod -R 755 /var/lib/nginx
 
-EXPOSE 80
+EXPOSE 9090
 CMD ["/usr/sbin/nginx"]
