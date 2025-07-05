@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-id')
+    DOCKERHUB_CREDENTIALS = credentials('docker-id')  // Replace with your actual Docker Hub credentials ID
   }
 
   stages {
@@ -27,9 +27,10 @@ pipeline {
     stage('Deploy on EC2') {
       steps {
         echo 'Deploying on EC2'
-        sshagent(['ec2-ssh']) {
+        sshagent(['ubuntu']) {  // Replace 'ubuntu' with your actual SSH key credentials ID
           sh '''
-            ssh -o StrictHostKeyChecking=no ec2-user@13.127.108.196'
+            ssh -o StrictHostKeyChecking=no ec2-user@13.127.108.196 '
+              sudo systemctl start docker || sudo service docker start || true &&
               docker pull devad14/test-image-aditya:latest &&
               docker stop test-container || true &&
               docker rm test-container || true &&
@@ -38,6 +39,12 @@ pipeline {
           '''
         }
       }
+    }
+  }
+
+  post {
+    always {
+      echo 'Pipeline finished.'
     }
   }
 }
