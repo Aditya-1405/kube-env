@@ -47,4 +47,8 @@ pipeline {
       echo 'Pipeline finished.'
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 93af982611e7c17cf96eea3fee280f3d0bf19b57
