@@ -32,7 +32,6 @@ pipeline {
             ssh -o StrictHostKeyChecking=no ubuntu@43.204.231.116 '
               sudo systemctl start docker || sudo service docker start  &&
               docker pull devad14/test-image-aditya:latest &&
-              docker stop test-container  &&
               docker rm test-container &&
               docker run -d --name test-container -p 8080:80 devad14/test-image-aditya:latest
             '
